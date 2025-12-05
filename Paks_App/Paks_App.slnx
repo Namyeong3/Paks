@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="Paks_App.vcxproj" Id="0ac75944-46fe-454d-b1ee-2188bda179f1" />
+</Solution>
