@@ -18,5 +18,11 @@
     <ClCompile Include="Paks_main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SpecificMenus.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
