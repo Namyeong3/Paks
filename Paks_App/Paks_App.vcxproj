@@ -133,8 +133,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="Globals.cpp" />
+    <ClCompile Include="Label.cpp" />
+    <ClCompile Include="Label.h" />
     <ClCompile Include="Paks_main.cpp" />
     <ClCompile Include="SpecificMenus.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Button.h" />
+    <ClInclude Include="Globals.h" />
+    <ClInclude Include="SpecificMenus.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

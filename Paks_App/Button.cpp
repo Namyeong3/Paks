@@ -1,15 +1,17 @@
 #include "Button.h"
 
+// Button.cpp
+
 // --- BUTTON IMPLEMENTATION ---
 Button::Button(float x, float y, float w, float h, sf::Font& font, std::string text, sf::Color color) {
     shape.setPosition(x, y);
     shape.setSize(sf::Vector2f(w, h));
-    shape.setFillColor(color);
+    shape.setFillColor(sf::Color::Black);
 
     label.setFont(font);
     label.setString(text);
     label.setCharacterSize(24);
-    label.setFillColor(sf::Color::White);
+    label.setFillColor(color);
 
     // Center text roughly
     label.setPosition(x + 5, y + 5);

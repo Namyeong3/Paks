@@ -1,10 +1,19 @@
 #include <SFML/Graphics.hpp>
 #include "SpecificMenus.h"
+#include "Globals.h"
+using namespace std;
 
-// Added CREDITS and GAMEOVER to the state list
-enum AppState { MENU, OPTIONS, CREDITS, GAME, GAMEOVER };
+// Paks_main.cpp
+
+enum AppState { MENU, STORY, STORIES, OPTIONS, ACHIEVEMENTS, ABOUT, PAUSE, GAME, GAMEOVER };
 
 int main() {
+
+    // Debug Mode
+    bool debug_mode = true;
+    if (debug_mode)
+        cout << "===========\nDebug Mode\n===========\n\n";
+
     sf::RenderWindow window(sf::VideoMode(800, 600), "Paks");
     sf::Font font;
     if (!font.loadFromFile("SamsungSans-Medium.ttf")) return -1;
@@ -12,7 +21,8 @@ int main() {
     // Instantiate all menus
     MainMenu mMain(font);
     OptionsMenu mOptions(font);
-    CreditsMenu mCredits(font);
+    AchievementsMenu mAchievements(font);
+    AboutMenu mAbout(font);
     GameOverMenu mGameOver(font);
 
     AppState currentState = MENU;
@@ -29,14 +39,15 @@ int main() {
                     int id = mMain.getClicked(window);
                     if (id == 0) currentState = GAME;
                     if (id == 1) currentState = OPTIONS;
-                    if (id == 2) currentState = CREDITS;
-                    if (id == 3) window.close();
+                    if (id == 2) currentState = ACHIEVEMENTS;
+                    if (id == 3) currentState = ABOUT;
+                    if (id == 4) window.close();
                 }
                 else if (currentState == OPTIONS) {
                     if (mOptions.getClicked(window) == 1) currentState = MENU;
                 }
-                else if (currentState == CREDITS) {
-                    if (mCredits.getClicked(window) == 0) currentState = MENU;
+                else if (currentState == ABOUT) {
+                    if (mAbout.getClicked(window) == 0) currentState = MENU;
                 }
                 else if (currentState == GAMEOVER) {
                     int id = mGameOver.getClicked(window);
@@ -63,7 +74,7 @@ int main() {
         // --- DRAWING ---
         if (currentState == MENU)     mMain.draw(window);
         if (currentState == OPTIONS)  mOptions.draw(window);
-        if (currentState == CREDITS)  mCredits.draw(window);
+        if (currentState == ABOUT)  mAbout.draw(window);
         if (currentState == GAMEOVER) mGameOver.draw(window);
 
         if (currentState == GAME) {
