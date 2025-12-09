@@ -1,0 +1,49 @@
+# FILE: Stories/TheDarkForest/Start.yaml
+
+# 1. A Simple Situation (Deterministic)
+- id: "start"
+  situation: "Forest"           # The main word shown on screen
+  reactions:
+    - label: "Enter"            # Option 1
+      consequences:
+        - text: "The trees block out the sun."
+          target_id: "forest_clearing"
+          # No weight = Default 1 (100% chance)
+
+    - label: "Leave"            # Option 2
+      consequences:
+        - text: "You turn back, but the path is gone."
+          target_id: "forest_poisoned"
+
+# 2. A Situation with Randomness (Weighted Probabilities)
+- id: "forest_clearing"
+  situation: "CLEARING"
+  reactions:
+    - label: "Drink Water"
+      consequences:
+        # Scenario A: Good outcome (High chance)
+        - text: "Refreshing."
+          target_id: "forest_rested"
+          weight: 4   
+
+        # Scenario B: Bad outcome (Low chance)
+        - text: "It tastes metallic. You feel sick."
+          target_id: "forest_poisoned"
+          weight: 1  
+          # Logic: 4 + 1 = 5 total.
+          # "Refreshing" has 4/5 (80%) chance.
+          # "Sick" has 1/5 (20%) chance.
+          # Optional Data Block
+          data: 
+            health_change: "-10"
+            achievement: "Bad_Idea_Award"
+            sound: "crunch.wav"
+
+# 3. A Dead End (Game Over)
+- id: "forest_poisoned"
+  situation: "DEATH"
+  reactions:
+    - label: "Restart"
+      consequences:
+        - text: "Try again."
+          target_id: "game_over"

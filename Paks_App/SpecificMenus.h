@@ -1,7 +1,8 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include "Button.h" // <--- THIS IS THE FIX. YOU NEED THIS LINE.
+#include "Button.h"
 #include "Label.h"
+#include "StoryData.h"
 
 // SpecificMenus.h
 
@@ -39,9 +40,26 @@ public:
     StoriesMenu(sf::Font& font);
 };
 
-class StoryMenu : public BaseMenu {
+class StoryMenu { // You can remove ": public BaseMenu" if you don't need it, or keep it.
+private:
+    sf::Font& font;
+
+    // New Variables for the Game
+    sf::Text situationText;       // The big word (e.g. "FOREST")
+    sf::Text consequenceText;     // The result text (e.g. "You tripped.")
+    std::vector<sf::Text> optionsTexts; // The list of clickables
+
+    bool showingConsequence;      // State flag
+
 public:
     StoryMenu(sf::Font& font);
+
+    // Replaces updateStoryLabels
+    void setSituation(const Situation& sit);
+    void setConsequence(const std::string& text);
+
+    void draw(sf::RenderWindow& window);
+    int getClicked(sf::RenderWindow& window);
 };
 
 class PauseMenu : public BaseMenu {

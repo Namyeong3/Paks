@@ -1,0 +1,3 @@
+- Replace the unecessary font arguments by the global fonts.
+- Automatically detect story folders and add buttons / id's to them
+- Add proper spacing to menus

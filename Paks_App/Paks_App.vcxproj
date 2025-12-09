@@ -138,11 +138,14 @@
     <ClCompile Include="Label.h" />
     <ClCompile Include="Paks_main.cpp" />
     <ClCompile Include="SpecificMenus.cpp" />
+    <ClCompile Include="StoryData.h" />
+    <ClCompile Include="StoryManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Button.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="SpecificMenus.h" />
+    <ClInclude Include="StoryManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

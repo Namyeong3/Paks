@@ -58,43 +58,128 @@ StoriesMenu::StoriesMenu(sf::Font& font) {
     if (debug_mode)
         labels.emplace_back(Label(100, 20, 300, 50, font, "DEBUG: STORIES MENU", sf::Color::White));
 
-    // 0: Back
-    buttons.addButton(Button(100, 500, 200, 50, font, "Back", sf::Color::Red));
+    string stories_list[] = { "Forest" , "Bus" , "Story 3" };
+
+    for (int i = 0; i < 3; i++) {
+        std::string& story = stories_list[i];
+
+        buttons.addButton(Button(100, 200 + 80 * i, 200, 50, font, story, sf::Color::Red));
+    }
 }
 
-StoryMenu::StoryMenu(sf::Font& font) {
-    // Add a menu title for Debug Mode
-    if (debug_mode)
-        labels.emplace_back(Label(100, 20, 300, 50, font, "DEBUG: STORY MENU", sf::Color::White));
+StoryMenu::StoryMenu(sf::Font& f) : font(f) { // <--- Fixes C2530
+    showingConsequence = false;
 
-    // 0: Back
-    buttons.addButton(Button(100, 500, 200, 50, font, "Back", sf::Color::Red));
+    // Initialize the styles
+    situationText.setFont(font);
+    situationText.setCharacterSize(60);
+    situationText.setFillColor(sf::Color::White);
+
+    consequenceText.setFont(font);
+    consequenceText.setCharacterSize(30);
+    consequenceText.setFillColor(sf::Color::Yellow);
 }
+
+// 2. Set Situation (The Choice Screen)
+void StoryMenu::setSituation(const Situation& sit) {
+    showingConsequence = false;
+
+    // Set Main Word
+    situationText.setString(sit.situation);
+
+    // Center the text (Assuming 800x600 screen)
+    sf::FloatRect textRect = situationText.getLocalBounds();
+    situationText.setOrigin(textRect.left + textRect.width / 2.0f,
+        textRect.top + textRect.height / 2.0f);
+    situationText.setPosition(400, 200);
+
+    // Set Options
+    optionsTexts.clear();
+    float startY = 350;
+
+    for (size_t i = 0; i < sit.reactions.size(); ++i) {
+        sf::Text opt;
+        opt.setFont(font);
+        opt.setString(sit.reactions[i].label);
+        opt.setCharacterSize(30);
+        opt.setFillColor(sf::Color::Cyan);
+
+        // Center option
+        sf::FloatRect optRect = opt.getLocalBounds();
+        opt.setOrigin(optRect.left + optRect.width / 2.0f,
+            optRect.top + optRect.height / 2.0f);
+        opt.setPosition(400, startY + (i * 50));
+
+        optionsTexts.push_back(opt);
+    }
+}
+
+// 3. Set Consequence (The Result Screen)
+void StoryMenu::setConsequence(const std::string& text) {
+    showingConsequence = true;
+    consequenceText.setString(text);
+
+    // Center the text
+    sf::FloatRect textRect = consequenceText.getLocalBounds();
+    consequenceText.setOrigin(textRect.left + textRect.width / 2.0f,
+        textRect.top + textRect.height / 2.0f);
+    consequenceText.setPosition(400, 300);
+}
+
+// 4. Draw
+void StoryMenu::draw(sf::RenderWindow& window) {
+    if (showingConsequence) {
+        window.draw(consequenceText);
+    }
+    else {
+        window.draw(situationText);
+        for (const auto& txt : optionsTexts) {
+            window.draw(txt);
+        }
+    }
+}
+
+// 5. Input Handling
+int StoryMenu::getClicked(sf::RenderWindow& window) {
+    // If reading a result, clicks don't select options
+    if (showingConsequence) return -1;
+
+    sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+    sf::Vector2f mousePosF(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
+
+    for (size_t i = 0; i < optionsTexts.size(); ++i) {
+        if (optionsTexts[i].getGlobalBounds().contains(mousePosF)) {
+            return static_cast<int>(i);
+        }
+    }
+    return -1;
+}
+
 
 AchievementsMenu::AchievementsMenu(sf::Font& font) {
     // Add a menu title for Debug Mode
     if (debug_mode)
         labels.emplace_back(Label(100, 20, 300, 50, font, "DEBUG: ACHIEVEMENTS MENU", sf::Color::White));
-
-    // 0: Back
-    buttons.addButton(Button(100, 500, 200, 50, font, "Back", sf::Color::Red));
 }
 
 AboutMenu::AboutMenu(sf::Font& font) {
     // Add a menu title for Debug Mode
     if (debug_mode)
         labels.emplace_back(Label(100, 20, 300, 50, font, "DEBUG: ABOUT MENU", sf::Color::White));
-
-    // 0: Back
-    buttons.addButton(Button(100, 500, 200, 50, font, "Back", sf::Color::Red));
 }
 
 PauseMenu::PauseMenu(sf::Font& font) {
     // Add a menu title for Debug Mode
     if (debug_mode)
-        labels.emplace_back(Label(100, 20, 300, 50, font, "DEBUG: ABOUT MENU", sf::Color::White));
+        labels.emplace_back(Label(100, 20, 300, 50, font, "DEBUG: PAUSE MENU", sf::Color::White));
+    
+    // 0
+    buttons.addButton(Button(100, 300, 200, 50, font, "Menu", sf::Color::Red));
 
-    // 0: Back
+    // 1
+    buttons.addButton(Button(100, 400, 200, 50, font, "Stories", sf::Color::Red));
+
+    // 2
     buttons.addButton(Button(100, 500, 200, 50, font, "Back", sf::Color::Red));
 }
 
